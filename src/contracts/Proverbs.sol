@@ -2,35 +2,26 @@ pragma solidity 0.5.0;
 
 import "./ERC721Full.sol";
 
-// Proverbs herda da SC da Zeppelin
 contract Proverbs is ERC721Full {
-    // Struct que define 
+ 
     struct postagem {
         string author;
         string title;
         string proverb;
     }
-    // Armazena as postagens
     postagem[] public postagens;
 
-    // Faz um mapeamento id (hash do proverbio) e post
     mapping (uint256 => postagem) post;
 
-    // Construtor => Nome e Simbolo
     constructor() ERC721Full("proverbs", "Proverbs") public {
     }
 
-    // Adiciona o Token
     function mint(string memory _author, string memory  _title, string memory _proverb) public {
-        // Gera o id
+
         uint256 tokenId = id(_proverb);
-        // Verfica se a frase já existe
         require(!_exists(tokenId));
-        // Add no vetor
         postagens.push(postagem(_author, _title, _proverb));
-        // Add no mapeamento a nova postagem
-        post[tokenId] = postagem(_author, _title, _proverb);
-        // Adiciona o token a conta que chamou essa funcao
+        post[tokenId] = postagem(_author, _title, _proverb);        
         _mint(msg.sender, tokenId);
     }
 
